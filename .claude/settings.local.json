@@ -20,7 +20,9 @@
       "Bash(npm view *)",
       "Bash(npm install *)",
       "Bash(npm ls *)",
-      "Bash(npm uninstall *)"
+      "Bash(npm uninstall *)",
+      "mcp__visualize__read_me",
+      "mcp__visualize__show_widget"
     ]
   }
 }
