@@ -26,6 +26,9 @@ export default function Navbar() {
           <Link to="/rewards" className="text-gray-600 hover:text-sea-dark">
             Награды
           </Link>
+          <Link to="/events" className="text-gray-600 hover:text-sea-dark">
+            Акции
+          </Link>
           {user && (
             <Link to="/reports/new" className="text-gray-600 hover:text-sea-dark">
               Новый репорт

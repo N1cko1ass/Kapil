@@ -10,6 +10,8 @@ import Profile from './pages/Profile'
 import Leaderboard from './pages/Leaderboard'
 import Rewards from './pages/Rewards'
 import PartnerCabinet from './pages/PartnerCabinet'
+import Events from './pages/Events'
+import EventDetail from './pages/EventDetail'
 
 export default function App() {
   return (
@@ -22,6 +24,8 @@ export default function App() {
         <Route path="/reports/:id" element={<ReportDetail />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/rewards" element={<Rewards />} />
+        <Route path="/events" element={<Events />} />
+        <Route path="/events/:id" element={<EventDetail />} />
         <Route
           path="/reports/new"
           element={

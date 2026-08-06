@@ -23,3 +23,18 @@ export const DEFAULT_MAP_CENTER = [43.6481, 51.1801]
 export const DEFAULT_MAP_ZOOM = 12
 
 export const CITIES = ['Актау', 'Атырау']
+
+export const EVENT_STATUSES = [
+  { value: 'planned', label: 'Запланирована', color: '#0e7490' },
+  { value: 'active', label: 'Идёт сейчас', color: '#16a34a' },
+  { value: 'completed', label: 'Завершена', color: '#6b7280' },
+  { value: 'cancelled', label: 'Отменена', color: '#dc2626' },
+]
+
+export function eventStatusLabel(value) {
+  return EVENT_STATUSES.find((s) => s.value === value)?.label ?? value
+}
+
+export function eventTypeLabel(value) {
+  return value === 'official' ? 'Официальная' : 'Пользовательская'
+}
