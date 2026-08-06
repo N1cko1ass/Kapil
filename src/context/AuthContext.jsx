@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 
 const AuthContext = createContext(null)
@@ -21,18 +21,19 @@ export function AuthProvider({ children }) {
     return () => listener.subscription.unsubscribe()
   }, [])
 
+  const refreshProfile = useCallback(async () => {
+    if (!session?.user) return
+    const { data } = await supabase.from('users').select('*').eq('id', session.user.id).single()
+    setProfile(data)
+  }, [session?.user])
+
   useEffect(() => {
     if (!session?.user) {
       setProfile(null)
       return
     }
-    supabase
-      .from('users')
-      .select('*')
-      .eq('id', session.user.id)
-      .single()
-      .then(({ data }) => setProfile(data))
-  }, [session?.user])
+    refreshProfile()
+  }, [session?.user, refreshProfile])
 
   async function signUp({ email, password, name, city }) {
     // Профиль в public.users создаёт триггер on_auth_user_created (см.
@@ -55,7 +56,16 @@ export function AuthProvider({ children }) {
     await supabase.auth.signOut()
   }
 
-  const value = { session, user: session?.user ?? null, profile, loading, signUp, signIn, signOut }
+  const value = {
+    session,
+    user: session?.user ?? null,
+    profile,
+    loading,
+    signUp,
+    signIn,
+    signOut,
+    refreshProfile,
+  }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

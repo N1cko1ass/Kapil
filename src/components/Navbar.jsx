@@ -20,6 +20,9 @@ export default function Navbar() {
           <Link to="/" className="text-gray-600 hover:text-sea-dark">
             Карта
           </Link>
+          <Link to="/leaderboard" className="text-gray-600 hover:text-sea-dark">
+            Рейтинг
+          </Link>
           {user && (
             <Link to="/reports/new" className="text-gray-600 hover:text-sea-dark">
               Новый репорт
@@ -27,7 +30,10 @@ export default function Navbar() {
           )}
           {user ? (
             <div className="flex items-center gap-3">
-              <span className="text-gray-500">{profile?.name ?? user.email}</span>
+              <Link to="/profile" className="text-gray-500 hover:text-sea-dark">
+                {profile?.name ?? user.email}
+                {profile && <span className="text-sea-dark font-medium"> · {profile.points_total}</span>}
+              </Link>
               <button
                 onClick={handleSignOut}
                 className="rounded-md border border-gray-300 px-3 py-1.5 hover:bg-gray-50"
