@@ -16,7 +16,9 @@ const corsHeaders = {
 }
 
 const CONFIDENCE_THRESHOLD = 0.7
-const GEMINI_MODEL = "gemini-2.0-flash"
+// gemini-2.0-flash устарела и на новых ключах даёт лимит 0 в бесплатном тарифе —
+// используем актуальную бесплатную модель.
+const GEMINI_MODEL = "gemini-2.5-flash"
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {

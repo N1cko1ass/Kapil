@@ -9,7 +9,9 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 }
 
-const GEMINI_MODEL = "gemini-2.0-flash"
+// gemini-2.0-flash устарела и на новых ключах даёт лимит 0 в бесплатном тарифе —
+// используем актуальную бесплатную модель.
+const GEMINI_MODEL = "gemini-2.5-flash"
 
 const SYSTEM_PROMPT = `Ты — ассистент платформы Kepil, гражданской экоплатформы Каспия (Актау).
 Помогаешь жителям оформить репорт о проблеме (мусор / нефть и промышленное загрязнение / дикая природа и браконьерство),
