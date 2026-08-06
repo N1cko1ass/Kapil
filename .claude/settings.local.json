@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la \"C:\\\\Users\\\\Nurdaulet\\\\Desktop\\\\Kapil\" 2>&1 || echo \"---\"; ls -la \"C:\\\\Users\\\\Nurdaulet\\\\Downloads\" | grep -i kepil)",
+      "Bash(pandoc -t markdown \"C:\\\\Users\\\\Nurdaulet\\\\Downloads\\\\Kepil_tech_spec.docx\")",
+      "PowerShell(Get-Command pandoc -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command python -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command soffice -ErrorAction SilentlyContinue)",
+      "Bash(python -c \"import docx\")",
+      "Bash(pip install *)",
+      "Bash(python3)",
+      "Bash(python)",
+      "Bash(cp \"C:\\\\Users\\\\Nurdaulet\\\\Downloads\\\\Kepil_tech_spec.docx\" \"C:\\\\Users\\\\Nurdaulet\\\\Desktop\\\\Kapil\\\\docs\\\\Kepil_tech_spec.docx\")",
+      "Bash(cp \"C:\\\\Users\\\\Nurdaulet\\\\Downloads\\\\Kepil_business_plan.docx\" \"C:\\\\Users\\\\Nurdaulet\\\\Desktop\\\\Kapil\\\\docs\\\\Kepil_business_plan.docx\")",
+      "Bash(npm create *)",
+      "Bash(npm run *)"
+    ]
+  }
+}
