@@ -12,11 +12,13 @@ import Rewards from './pages/Rewards'
 import PartnerCabinet from './pages/PartnerCabinet'
 import Events from './pages/Events'
 import EventDetail from './pages/EventDetail'
+import ChatWidget from './components/ChatWidget'
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-cream">
       <Navbar />
+      <ChatWidget />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />

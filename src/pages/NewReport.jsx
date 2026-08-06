@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import imageCompression from 'browser-image-compression'
 import MapView from '../components/MapView'
 import { supabase } from '../lib/supabase'
+import { classifyPhoto } from '../lib/ai'
 import { useAuth } from '../context/AuthContext'
 import { REPORT_CATEGORIES, DEFAULT_MAP_CENTER } from '../lib/constants'
 
@@ -81,16 +82,20 @@ export default function NewReport() {
 
     const { data: publicUrlData } = supabase.storage.from('report-photos').getPublicUrl(path)
 
-    const { error: insertError } = await supabase.from('reports').insert({
-      user_id: user.id,
-      category,
-      description,
-      photo_url: publicUrlData.publicUrl,
-      lat: location.lat,
-      lng: location.lng,
-      city: profile?.city ?? null,
-      status: 'pending_review',
-    })
+    const { data: inserted, error: insertError } = await supabase
+      .from('reports')
+      .insert({
+        user_id: user.id,
+        category,
+        description,
+        photo_url: publicUrlData.publicUrl,
+        lat: location.lat,
+        lng: location.lng,
+        city: profile?.city ?? null,
+        status: 'pending_review',
+      })
+      .select('id')
+      .single()
 
     setSubmitting(false)
 
@@ -98,6 +103,9 @@ export default function NewReport() {
       setError('Не удалось создать репорт: ' + insertError.message)
       return
     }
+
+    // Проверка фото ИИ — не блокирует создание репорта, если недоступна
+    classifyPhoto(inserted.id).catch(() => {})
 
     navigate('/')
   }

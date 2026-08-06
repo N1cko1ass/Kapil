@@ -1,12 +1,70 @@
 @import "tailwindcss";
 
+/* Палитра вдохновлена Каспием и Мангистау: глубокая морская бирюза,
+   светлая прибрежная волна, меловой песок Босжиры, терракота каньонов. */
 @theme {
-  --color-sea: #0e7490;
-  --color-sea-dark: #0c4a6e;
+  --color-sea: #0f7a91;
+  --color-sea-dark: #0a4a5c;
+  --color-sea-light: #6fd4d9;
+  --color-turquoise: #14b8a6;
+  --color-sand: #e8d5ae;
+  --color-sand-dark: #b8925c;
+  --color-terracotta: #c1512f;
   --color-eco: #16a34a;
+  --color-cream: #faf6ee;
+
+  --animate-fade-in: fade-in 0.5s ease-out both;
+  --animate-fade-in-up: fade-in-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-pulse-ring: pulse-ring 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-wave: wave-shift 10s linear infinite;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(15, 122, 145, 0.45); }
+    70% { box-shadow: 0 0 0 14px rgba(15, 122, 145, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(15, 122, 145, 0); }
+  }
+  @keyframes wave-shift {
+    from { background-position-x: 0; }
+    to { background-position-x: 200px; }
+  }
 }
 
 body {
   margin: 0;
   font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  background: var(--color-cream);
+}
+
+/* Единая анимация нажатия/наведения для всех кнопок и кнопок-ссылок —
+   не нужно дублировать transition/scale в каждом компоненте вручную. */
+@layer base {
+  button:not(:disabled),
+  a[class*="rounded-md"],
+  a[class*="rounded-full"] {
+    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 0.2s ease, filter 0.15s ease, background-color 0.2s ease,
+      border-color 0.2s ease, color 0.2s ease;
+  }
+
+  button[class*="rounded"]:not(:disabled):hover,
+  a[class*="rounded-md"]:hover,
+  a[class*="rounded-full"]:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+  }
+
+  button[class*="rounded"]:not(:disabled):active,
+  a[class*="rounded-md"]:active,
+  a[class*="rounded-full"]:active {
+    transform: scale(0.96) translateY(0);
+    filter: brightness(0.97);
+  }
 }

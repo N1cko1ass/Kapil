@@ -1,5 +1,11 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { NavLink, Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import Logo from './Logo'
+
+const navLinkClass = ({ isActive }) =>
+  `relative py-1 text-gray-600 hover:text-sea-dark after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-gradient-to-r after:from-sea after:to-turquoise after:transition-all after:duration-300 ${
+    isActive ? 'text-sea-dark font-medium after:w-full' : 'after:w-0 hover:after:w-full'
+  }`
 
 export default function Navbar() {
   const { user, profile, signOut } = useAuth()
@@ -11,43 +17,46 @@ export default function Navbar() {
   }
 
   return (
-    <header className="border-b border-gray-200 bg-white sticky top-0 z-[1000]">
-      <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-        <Link to="/" className="font-semibold text-sea-dark text-lg">
+    <header className="sticky top-0 z-[1000] border-b border-sand-dark/20 bg-cream/80 backdrop-blur-md">
+      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+        <Link to="/" className="flex items-center gap-2 font-semibold text-sea-dark text-lg">
+          <Logo size={32} />
           Kepil
         </Link>
-        <nav className="flex items-center gap-4 text-sm">
-          <Link to="/" className="text-gray-600 hover:text-sea-dark">
+        <nav className="flex items-center gap-5 text-sm">
+          <NavLink to="/" end className={navLinkClass}>
             Карта
-          </Link>
-          <Link to="/leaderboard" className="text-gray-600 hover:text-sea-dark">
+          </NavLink>
+          <NavLink to="/leaderboard" className={navLinkClass}>
             Рейтинг
-          </Link>
-          <Link to="/rewards" className="text-gray-600 hover:text-sea-dark">
+          </NavLink>
+          <NavLink to="/rewards" className={navLinkClass}>
             Награды
-          </Link>
-          <Link to="/events" className="text-gray-600 hover:text-sea-dark">
+          </NavLink>
+          <NavLink to="/events" className={navLinkClass}>
             Акции
-          </Link>
+          </NavLink>
           {user && (
-            <Link to="/reports/new" className="text-gray-600 hover:text-sea-dark">
+            <NavLink to="/reports/new" className={navLinkClass}>
               Новый репорт
-            </Link>
+            </NavLink>
           )}
           {profile?.role === 'partner' && (
-            <Link to="/partner" className="text-gray-600 hover:text-sea-dark">
+            <NavLink to="/partner" className={navLinkClass}>
               Кабинет партнёра
-            </Link>
+            </NavLink>
           )}
           {user ? (
             <div className="flex items-center gap-3">
               <Link to="/profile" className="text-gray-500 hover:text-sea-dark">
                 {profile?.name ?? user.email}
-                {profile && <span className="text-sea-dark font-medium"> · {profile.points_total}</span>}
+                {profile && (
+                  <span className="text-sea-dark font-semibold"> · {profile.points_total}</span>
+                )}
               </Link>
               <button
                 onClick={handleSignOut}
-                className="rounded-md border border-gray-300 px-3 py-1.5 hover:bg-gray-50"
+                className="rounded-md border border-sand-dark/40 px-3 py-1.5 hover:bg-sand/30"
               >
                 Выйти
               </button>
@@ -59,7 +68,7 @@ export default function Navbar() {
               </Link>
               <Link
                 to="/register"
-                className="rounded-md bg-sea text-white px-3 py-1.5 hover:bg-sea-dark"
+                className="rounded-md bg-gradient-to-r from-sea to-turquoise text-white px-3 py-1.5 shadow-sm hover:shadow-md"
               >
                 Регистрация
               </Link>

@@ -16,20 +16,35 @@ export default function Home() {
   })
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6">
-      <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Карта проблем Каспия</h1>
-          <p className="text-gray-500 text-sm">Актау · открыто для всех, без регистрации</p>
+    <div>
+      <div className="relative overflow-hidden bg-gradient-to-br from-sea-dark via-sea to-turquoise">
+        <div
+          className="absolute inset-x-0 bottom-0 h-10 opacity-25"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='40' viewBox='0 0 200 40'%3E%3Cpath d='M0 20 Q25 0 50 20 T100 20 T150 20 T200 20 V40 H0 Z' fill='white'/%3E%3C/svg%3E\")",
+            backgroundRepeat: 'repeat-x',
+          }}
+        />
+        <div className="max-w-6xl mx-auto px-4 py-10 relative animate-fade-in-up">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div>
+              <h1 className="text-3xl font-semibold text-white">Карта проблем Каспия</h1>
+              <p className="text-sea-light/90 text-sm mt-1">
+                Актау · открыто для всех, без регистрации
+              </p>
+            </div>
+            <Link
+              to={user ? '/reports/new' : '/login'}
+              className="rounded-md bg-white text-sea-dark px-5 py-2.5 text-sm font-semibold shadow-lg hover:shadow-xl"
+            >
+              + Создать репорт
+            </Link>
+          </div>
         </div>
-        <Link
-          to={user ? '/reports/new' : '/login'}
-          className="rounded-md bg-sea text-white px-4 py-2 text-sm font-medium hover:bg-sea-dark"
-        >
-          + Создать репорт
-        </Link>
       </div>
 
+      <div className="max-w-6xl mx-auto px-4 py-6">
       <div className="flex gap-3 mb-4 text-sm">
         <select
           value={category}
@@ -78,6 +93,7 @@ export default function Home() {
             )}
           </div>
         </div>
+      </div>
       </div>
     </div>
   )
