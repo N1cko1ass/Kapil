@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-
-const CITIES = ['Актау', 'Атырау']
+import { CITIES } from '../lib/constants'
 
 export default function Register() {
   const { signUp } = useAuth()

@@ -23,9 +23,17 @@ export default function Navbar() {
           <Link to="/leaderboard" className="text-gray-600 hover:text-sea-dark">
             Рейтинг
           </Link>
+          <Link to="/rewards" className="text-gray-600 hover:text-sea-dark">
+            Награды
+          </Link>
           {user && (
             <Link to="/reports/new" className="text-gray-600 hover:text-sea-dark">
               Новый репорт
+            </Link>
+          )}
+          {profile?.role === 'partner' && (
+            <Link to="/partner" className="text-gray-600 hover:text-sea-dark">
+              Кабинет партнёра
             </Link>
           )}
           {user ? (

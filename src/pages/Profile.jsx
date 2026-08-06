@@ -8,6 +8,7 @@ export default function Profile() {
   const { user, profile } = useAuth()
   const [reports, setReports] = useState([])
   const [badges, setBadges] = useState([])
+  const [redemptions, setRedemptions] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -23,9 +24,15 @@ export default function Profile() {
         .select('earned_at, badges(*)')
         .eq('user_id', user.id)
         .order('earned_at', { ascending: false }),
-    ]).then(([reportsRes, badgesRes]) => {
+      supabase
+        .from('redemptions')
+        .select('*, rewards(title, partners(name))')
+        .eq('user_id', user.id)
+        .order('redeemed_at', { ascending: false }),
+    ]).then(([reportsRes, badgesRes, redemptionsRes]) => {
       setReports(reportsRes.data ?? [])
       setBadges((badgesRes.data ?? []).map((row) => row.badges).filter(Boolean))
+      setRedemptions(redemptionsRes.data ?? [])
       setLoading(false)
     })
   }, [user])
@@ -72,6 +79,33 @@ export default function Profile() {
           <div className="flex gap-4 flex-wrap">
             {badges.map((b) => (
               <BadgeIcon key={b.id} badge={b} />
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section className="mb-8">
+        <h2 className="font-medium text-gray-900 mb-3">Мои награды</h2>
+        {redemptions.length === 0 ? (
+          <p className="text-sm text-gray-400">Вы ещё не обменивали баллы на награды.</p>
+        ) : (
+          <div className="flex flex-col gap-2">
+            {redemptions.map((r) => (
+              <div
+                key={r.id}
+                className="flex items-center justify-between rounded-lg border border-gray-200 px-3 py-2 text-sm"
+              >
+                <div>
+                  <div className="font-medium text-gray-900">{r.rewards?.title}</div>
+                  <div className="text-xs text-gray-500">{r.rewards?.partners?.name}</div>
+                </div>
+                <div className="text-right">
+                  <div className="font-mono font-semibold text-sea-dark">{r.promo_code}</div>
+                  <div className="text-xs text-gray-400">
+                    {r.status === 'used' ? 'Использован' : 'Выдан'}
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         )}

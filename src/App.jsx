@@ -8,6 +8,8 @@ import NewReport from './pages/NewReport'
 import ReportDetail from './pages/ReportDetail'
 import Profile from './pages/Profile'
 import Leaderboard from './pages/Leaderboard'
+import Rewards from './pages/Rewards'
+import PartnerCabinet from './pages/PartnerCabinet'
 
 export default function App() {
   return (
@@ -19,6 +21,7 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/reports/:id" element={<ReportDetail />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/rewards" element={<Rewards />} />
         <Route
           path="/reports/new"
           element={
@@ -32,6 +35,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/partner"
+          element={
+            <ProtectedRoute>
+              <PartnerCabinet />
             </ProtectedRoute>
           }
         />

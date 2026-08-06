@@ -21,3 +21,5 @@ export function statusLabel(value) {
 // Актау — центр карты по умолчанию
 export const DEFAULT_MAP_CENTER = [43.6481, 51.1801]
 export const DEFAULT_MAP_ZOOM = 12
+
+export const CITIES = ['Актау', 'Атырау']
