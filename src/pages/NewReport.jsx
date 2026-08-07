@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import imageCompression from 'browser-image-compression'
+import { Trash2, Droplet, Fish, Camera, MapPin, Send, CheckCircle2 } from 'lucide-react'
 import MapView from '../components/MapView'
 import { supabase } from '../lib/supabase'
 import { classifyPhoto } from '../lib/ai'
 import { useAuth } from '../context/AuthContext'
 import { REPORT_CATEGORIES, DEFAULT_MAP_CENTER } from '../lib/constants'
+
+const CATEGORY_ICONS = { litter: Trash2, oil: Droplet, wildlife: Fish }
 
 export default function NewReport() {
   const { user, profile } = useAuth()
@@ -111,40 +114,65 @@ export default function NewReport() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
       <h1 className="text-2xl font-semibold text-gray-900 mb-6">Новый репорт</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-5 bg-white rounded-2xl border border-sand-dark/20 shadow-sm p-4 sm:p-6"
+      >
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Категория</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Категория</label>
           <div className="flex gap-2 flex-wrap">
-            {REPORT_CATEGORIES.map((c) => (
-              <button
-                type="button"
-                key={c.value}
-                onClick={() => setCategory(c.value)}
-                className={`rounded-full px-3 py-1.5 text-sm border ${
-                  category === c.value
-                    ? 'bg-sea text-white border-sea'
-                    : 'border-gray-300 text-gray-600'
-                }`}
-              >
-                {c.label}
-              </button>
-            ))}
+            {REPORT_CATEGORIES.map((c) => {
+              const Icon = CATEGORY_ICONS[c.value]
+              return (
+                <button
+                  type="button"
+                  key={c.value}
+                  onClick={() => setCategory(c.value)}
+                  className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm border ${
+                    category === c.value
+                      ? 'bg-sea text-white border-sea'
+                      : 'border-sand-dark/40 text-gray-600'
+                  }`}
+                >
+                  <Icon size={15} />
+                  {c.label}
+                </button>
+              )
+            })}
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Фото</label>
-          <input type="file" accept="image/*" capture="environment" onChange={handlePhotoChange} />
+          <label className="flex items-center gap-1.5 text-sm font-medium text-gray-700 mb-2">
+            <Camera size={16} />
+            Фото
+          </label>
+          <label className="flex items-center justify-center gap-2 rounded-xl border-2 border-dashed border-sand-dark/40 hover:border-sea py-6 cursor-pointer text-sm text-gray-500">
+            <Camera size={18} />
+            {photoFile ? 'Заменить фото' : 'Выбрать или сделать фото'}
+            <input
+              type="file"
+              accept="image/*"
+              capture="environment"
+              onChange={handlePhotoChange}
+              className="hidden"
+            />
+          </label>
           {photoPreview && (
-            <img src={photoPreview} alt="" className="mt-2 w-40 h-40 object-cover rounded-md" />
+            <img
+              src={photoPreview}
+              alt=""
+              className="mt-3 w-32 h-32 sm:w-40 sm:h-40 object-cover rounded-xl shadow-sm"
+            />
           )}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Местоположение {location && '✓'}
+          <label className="flex items-center gap-1.5 text-sm font-medium text-gray-700 mb-2">
+            <MapPin size={16} />
+            Местоположение {location && <CheckCircle2 size={16} className="text-eco" />}
           </label>
           <button
             type="button"
@@ -158,17 +186,17 @@ export default function NewReport() {
             center={location ? [location.lat, location.lng] : DEFAULT_MAP_CENTER}
             onMapClick={(latlng) => setLocation(latlng)}
             pickedLocation={location}
-            height="300px"
+            height="280px"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Описание</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Описание</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={3}
-            className="w-full rounded-md border border-gray-300 px-3 py-2"
+            className="w-full rounded-md border border-sand-dark/40 px-3 py-2"
             placeholder="Опишите, что вы обнаружили…"
           />
         </div>
@@ -178,8 +206,9 @@ export default function NewReport() {
         <button
           type="submit"
           disabled={submitting}
-          className="rounded-md bg-sea text-white py-2.5 font-medium hover:bg-sea-dark disabled:opacity-50"
+          className="flex items-center justify-center gap-2 rounded-md bg-gradient-to-r from-sea to-turquoise text-white py-3 font-medium shadow-md disabled:opacity-50"
         >
+          <Send size={16} />
           {submitting ? 'Отправка…' : 'Отправить репорт'}
         </button>
       </form>

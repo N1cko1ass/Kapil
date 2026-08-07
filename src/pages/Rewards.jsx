@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Gift, Store, Sparkles } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../context/AuthContext'
 import { CITIES } from '../lib/constants'
@@ -45,9 +46,12 @@ export default function Rewards() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8">
       <div className="flex items-center justify-between flex-wrap gap-3 mb-2">
-        <h1 className="text-2xl font-semibold text-gray-900">Каталог наград</h1>
+        <h1 className="text-2xl font-semibold text-gray-900 flex items-center gap-2">
+          <Gift className="text-sea-dark" size={24} />
+          Каталог наград
+        </h1>
         {profile && (
           <span className="text-sm text-gray-500">
             У вас <span className="text-sea-dark font-semibold">{profile.points_total}</span> баллов
@@ -58,7 +62,7 @@ export default function Rewards() {
       <select
         value={city}
         onChange={(e) => setCity(e.target.value)}
-        className="rounded-md border border-gray-300 px-2 py-1.5 text-sm mb-6"
+        className="rounded-md border border-sand-dark/40 px-2 py-1.5 text-sm mb-6"
       >
         <option value="">Все города</option>
         {CITIES.map((c) => (
@@ -87,21 +91,34 @@ export default function Rewards() {
         {rewards.map((r) => {
           const canAfford = profile && profile.points_total >= r.points_cost
           return (
-            <div key={r.id} className="rounded-lg border border-gray-200 p-4 flex flex-col">
+            <div
+              key={r.id}
+              className="rounded-xl border border-sand-dark/20 bg-white p-4 flex flex-col shadow-sm hover:shadow-md"
+            >
               <div className="flex-1">
-                <h2 className="font-medium text-gray-900">{r.title}</h2>
-                <p className="text-xs text-gray-500 mb-1">
-                  {r.partners?.name} · {r.city}
-                </p>
-                {r.description && <p className="text-sm text-gray-600">{r.description}</p>}
+                <div className="flex items-start gap-2">
+                  <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-sea to-turquoise text-white flex items-center justify-center shrink-0">
+                    <Store size={16} />
+                  </div>
+                  <div className="min-w-0">
+                    <h2 className="font-medium text-gray-900">{r.title}</h2>
+                    <p className="text-xs text-gray-500">
+                      {r.partners?.name} · {r.city}
+                    </p>
+                  </div>
+                </div>
+                {r.description && <p className="text-sm text-gray-600 mt-2">{r.description}</p>}
               </div>
               <div className="flex items-center justify-between mt-3">
-                <span className="font-semibold text-sea-dark">{r.points_cost} баллов</span>
+                <span className="flex items-center gap-1 font-semibold text-sea-dark">
+                  <Sparkles size={14} />
+                  {r.points_cost} баллов
+                </span>
                 {user ? (
                   <button
                     onClick={() => handleRedeem(r)}
                     disabled={!canAfford || redeemingId === r.id}
-                    className="rounded-md bg-sea text-white text-sm px-3 py-1.5 hover:bg-sea-dark disabled:opacity-40"
+                    className="rounded-md bg-gradient-to-r from-sea to-turquoise text-white text-sm px-3 py-1.5 disabled:opacity-40 disabled:grayscale"
                   >
                     {redeemingId === r.id ? 'Обмен…' : canAfford ? 'Обменять' : 'Не хватает баллов'}
                   </button>
@@ -115,7 +132,7 @@ export default function Rewards() {
           )
         })}
         {!loading && rewards.length === 0 && (
-          <p className="text-sm text-gray-400 col-span-2">Наград пока нет.</p>
+          <p className="text-sm text-gray-400 col-span-full">Наград пока нет.</p>
         )}
       </div>
     </div>

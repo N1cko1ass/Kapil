@@ -140,7 +140,7 @@ export default function EventDetail() {
               Ваше участие: {myParticipation.status === 'confirmed' ? 'подтверждено ✓' : 'ожидает подтверждения'}
             </p>
             {myParticipation.status === 'joined' && (
-              <div className="flex gap-4 text-sm">
+              <div className="flex flex-col sm:flex-row gap-4 text-sm">
                 <label className="flex flex-col gap-1">
                   Фото «до»
                   <input

@@ -9,9 +9,10 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 }
 
-// gemini-2.0-flash устарела и на новых ключах даёт лимит 0 в бесплатном тарифе —
-// используем актуальную бесплатную модель.
-const GEMINI_MODEL = "gemini-2.5-flash"
+// Конкретные версии (2.0-flash, 2.5-flash) периодически теряют доступ на новых
+// ключах ("no longer available to new users" / лимит 0). "-latest" — алиас,
+// который Google сам переключает на актуальную доступную модель.
+const GEMINI_MODEL = "gemini-flash-latest"
 
 const SYSTEM_PROMPT = `Ты — ассистент платформы Kepil, гражданской экоплатформы Каспия (Актау).
 Помогаешь жителям оформить репорт о проблеме (мусор / нефть и промышленное загрязнение / дикая природа и браконьерство),
